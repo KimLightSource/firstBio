@@ -14,7 +14,7 @@ public class Weight {
     @Column(name = "weight_id")
     private Long id;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name= "patient_id")
     private Patient patient;
 

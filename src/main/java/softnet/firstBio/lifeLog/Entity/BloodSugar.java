@@ -11,7 +11,7 @@ public class BloodSugar {
     @Id @GeneratedValue
     private Long id;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name= "patient_id")
     private Patient patient;
 
