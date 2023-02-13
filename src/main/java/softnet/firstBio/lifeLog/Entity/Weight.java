@@ -1,6 +1,7 @@
 package softnet.firstBio.lifeLog.Entity;
 
 import lombok.Data;
+import softnet.firstBio.lifeLog.Entity.member.Member;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
@@ -11,12 +12,11 @@ public class Weight {
 
     @Id
     @GeneratedValue
-    @Column(name = "weight_id")
     private Long id;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name= "patient_id")
-    private Patient patient;
+    @JoinColumn(name= "member_id")
+    private Member member;
 
     private LocalDateTime dateTime;
 

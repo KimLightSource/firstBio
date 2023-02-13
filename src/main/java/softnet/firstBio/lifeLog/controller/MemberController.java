@@ -1,19 +1,39 @@
 package softnet.firstBio.lifeLog.controller;
 
-import org.springframework.web.bind.annotation.RequestBody;
-import softnet.firstBio.lifeLog.Entity.Patient;
+import lombok.RequiredArgsConstructor;
+import org.springframework.web.bind.annotation.*;
+import softnet.firstBio.lifeLog.Entity.BloodPressure;
+import softnet.firstBio.lifeLog.Entity.member.Member;
+import softnet.firstBio.lifeLog.repo.BloodPressureRepository;
+import softnet.firstBio.lifeLog.repo.MemberRepository;
 
-import javax.persistence.EntityManager;
-import javax.persistence.PersistenceContext;
+import java.util.List;
 
+@RequiredArgsConstructor
+@RestController
+@CrossOrigin
+@RequestMapping("/")
 public class MemberController {
 
-    @PersistenceContext
-    private EntityManager em;
+    private final MemberRepository memberRepository;
 
-    public Patient find(
-            @RequestBody Patient member
-    ) {
-        return em.find(Patient.class, member);
+
+    @GetMapping("member")
+    public List<Member> findAllMember() {
+        return memberRepository.findAll();
     }
+
+    @PostMapping("member")
+    public Member signUp() {
+        final Member member = Member.builder()
+                .username("testMember")
+                .password("1234")
+                .build();
+        return memberRepository.save(member);
+    }
+
+
+
+
+
 }

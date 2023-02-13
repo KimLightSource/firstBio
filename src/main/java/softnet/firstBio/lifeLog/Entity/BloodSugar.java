@@ -1,19 +1,23 @@
 package softnet.firstBio.lifeLog.Entity;
 
-import lombok.Data;
+import lombok.*;
+import softnet.firstBio.lifeLog.Entity.member.Member;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
 
 @Entity
-@Data
+@Getter
+@Builder
+@AllArgsConstructor
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class BloodSugar {
     @Id @GeneratedValue
     private Long id;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name= "patient_id")
-    private Patient patient;
+    @JoinColumn(name= "member_id")
+    private Member member;
 
     private Integer BS; // 혈당수치
 
