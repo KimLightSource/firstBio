@@ -14,7 +14,6 @@ import java.time.LocalDateTime;
 @Getter
 @NoArgsConstructor
 public class BloodPressureRequestDto {
-    private LocalDateTime dateTime;
     private Integer maxBp;
     private Integer minBp;
     private Integer pulse;
@@ -24,8 +23,7 @@ public class BloodPressureRequestDto {
     private DrugField drugField;
 
     @Builder
-    public BloodPressureRequestDto(LocalDateTime dateTime, Integer maxBp, Integer minBp, Integer pulse, Location location, DrugField drugField) {
-        this.dateTime = dateTime;
+    public BloodPressureRequestDto(Integer maxBp, Integer minBp, Integer pulse, Location location, DrugField drugField) {
         this.maxBp = maxBp;
         this.minBp = minBp;
         this.pulse = pulse;
@@ -37,7 +35,6 @@ public class BloodPressureRequestDto {
         return BloodPressure.builder()
                 .maxBp(maxBp)
                 .minBp(minBp)
-                .dateTime(dateTime)
                 .pulse(pulse)
                 .location(location)
                 .drugField(drugField)

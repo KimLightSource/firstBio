@@ -1,6 +1,10 @@
 package softnet.firstBio.lifeLog.Entity;
 
+import com.fasterxml.jackson.databind.ser.Serializers;
 import lombok.*;
+import org.hibernate.annotations.CreationTimestamp;
+import org.hibernate.annotations.UpdateTimestamp;
+import org.springframework.data.annotation.CreatedDate;
 import softnet.firstBio.lifeLog.Entity.member.Member;
 
 import javax.persistence.*;
@@ -11,25 +15,24 @@ import java.time.LocalDateTime;
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-public class BloodSugar {
+public class BloodSugar extends BaseEntity {
     @Id @GeneratedValue
     private Long id;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name= "member_id")
+    @JoinColumn(name= "member_username")
     private Member member;
 
-    private Integer BS; // 혈당수치
-
-    private LocalDateTime dateTime;
+    private Integer bs; // 혈당수치
 
     @Enumerated(EnumType.STRING)
-    private BSStatus BDstatus; // EMPTY, TWO_HOUR_AFTER, BEFORE_BEDTIME
+    private BSStatus bsstatus; // EMPTY, TWO_HOUR_AFTER, BEFORE_SLEEP
 
     @Enumerated(EnumType.STRING)
     private Insulin insulin; // Y, N
 
     @Enumerated(EnumType.STRING)
     private MeasurementLocation measurementLocation; // HOME, HOSPITAL, JOB, ETC
+
 
 }

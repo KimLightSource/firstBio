@@ -21,7 +21,7 @@ public class BloodPressureResponseDto {
 
     public BloodPressureResponseDto(BloodPressure entity) {
         this.id = entity.getId();
-        this.dateTime = entity.getDateTime();
+        this.dateTime = entity.getCreatedDate();
         this.maxBp = entity.getMaxBp();
         this.minBp = entity.getMinBp();
         this.pulse = entity.getPulse();

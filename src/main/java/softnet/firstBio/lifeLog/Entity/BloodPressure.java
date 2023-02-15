@@ -1,6 +1,8 @@
 package softnet.firstBio.lifeLog.Entity;
 
 import lombok.*;
+import org.hibernate.annotations.CreationTimestamp;
+import org.springframework.data.annotation.CreatedDate;
 import softnet.firstBio.lifeLog.Entity.member.Member;
 
 import javax.persistence.*;
@@ -11,16 +13,13 @@ import java.time.LocalDateTime;
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-public class BloodPressure {
+public class BloodPressure extends BaseEntity{
     @Id @GeneratedValue
     private Long id;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name= "member_id")
+    @JoinColumn(name= "member_username")
     private Member member;
-
-    private LocalDateTime dateTime;
-
     private Integer maxBp;
     private Integer minBp;
     private Integer pulse;
