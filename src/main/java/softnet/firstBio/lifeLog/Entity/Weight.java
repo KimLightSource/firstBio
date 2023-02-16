@@ -1,24 +1,26 @@
 package softnet.firstBio.lifeLog.Entity;
 
-import lombok.Data;
+import lombok.*;
+import org.hibernate.annotations.CreationTimestamp;
 import softnet.firstBio.lifeLog.Entity.member.Member;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
 
 @Entity
-@Data
-public class Weight {
+@Getter
+@Builder
+@AllArgsConstructor
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
+public class Weight extends BaseEntity{
 
     @Id
     @GeneratedValue
     private Long id;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name= "member_id")
+    @JoinColumn(name= "member_username")
     private Member member;
-
-    private LocalDateTime dateTime;
 
     private Integer height;
 
@@ -30,4 +32,6 @@ public class Weight {
 
     @Enumerated(EnumType.STRING)
     private Gender gender;
+    @Enumerated(EnumType.STRING)
+    private Location location;
 }
