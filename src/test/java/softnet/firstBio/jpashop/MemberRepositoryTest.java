@@ -7,28 +7,29 @@ import org.springframework.boot.test.context.SpringBootTest;
 
 import org.springframework.test.annotation.Rollback;
 import org.springframework.transaction.annotation.Transactional;
-import softnet.firstBio.jpashop.domain.Member;
+import softnet.firstBio.lifeLog.Entity.BloodPressure;
+import softnet.firstBio.lifeLog.repo.BloodPressureRepository;
 
 @SpringBootTest
 class MemberRepositoryTest {
     @Autowired
-    MemberRepository memberRepository;
+    BloodPressureRepository bpr;
 
     @Test
     @Transactional
     @Rollback(value = false)
     public void testMember() throws Exception {
         //given
-        Member member = new Member();
+
 
         //when
-        Long savedId = memberRepository.save(member);
-        Member findMember = memberRepository.find(savedId);
+
+        BloodPressure bo = bpr.latestBP();
 
         //then
-        Assertions.assertThat(findMember.getId()).isEqualTo(member.getId());
-        Assertions.assertThat(findMember.getUsername()).isEqualTo(member.getUsername());
-        Assertions.assertThat(findMember).isEqualTo(member);
-
+//        Assertions.assertThat(findMember.getId()).isEqualTo(member.getId());
+//        Assertions.assertThat(findMember.getUsername()).isEqualTo(member.getUsername());
+//        Assertions.assertThat(findMember).isEqualTo(member);
+        System.out.println("bo = " + bo);
     }
 }

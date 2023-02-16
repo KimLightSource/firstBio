@@ -1,13 +1,13 @@
 package softnet.firstBio.lifeLog.service;
 
-import softnet.firstBio.lifeLog.dto.BloodPressureRequestDto;
-import softnet.firstBio.lifeLog.dto.BloodPressureResponseDto;
-import softnet.firstBio.lifeLog.dto.BloodSugarRequestDto;
-import softnet.firstBio.lifeLog.dto.BloodSugarResponseDto;
+import softnet.firstBio.lifeLog.dto.*;
 
 import java.util.List;
 
 public interface LifelogService {
+
+    public List<Object> latestLifelog();
+
 
     // BP
     public List<BloodPressureResponseDto> findAllBP();
@@ -17,4 +17,10 @@ public interface LifelogService {
     //BS
     public List<BloodSugarResponseDto> findAllBS();
     public Long saveBS(BloodSugarRequestDto requestDto);
+
+    //WEIGHT
+    public List<WeightResponseDto> findAllWeight();
+    public Long saveWeight(WeightRequestDto requestDto);
+
+
 }
