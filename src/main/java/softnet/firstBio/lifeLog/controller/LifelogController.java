@@ -2,9 +2,8 @@ package softnet.firstBio.lifeLog.controller;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
-import softnet.firstBio.lifeLog.Entity.BloodSugar;
 import softnet.firstBio.lifeLog.dto.*;
-import softnet.firstBio.lifeLog.service.LifelogServiceImpl;
+import softnet.firstBio.lifeLog.service.LifelogService;
 
 import java.util.List;
 
@@ -13,7 +12,7 @@ import java.util.List;
 @CrossOrigin
 @RequestMapping("lifelog")
 public class LifelogController {
-    private final LifelogServiceImpl lifelogService;
+    private final LifelogService lifelogService;
 
     @GetMapping()
     public List<Object> latestLifelog() {

@@ -1,14 +1,9 @@
 package softnet.firstBio.lifeLog.Entity;
 
-import com.fasterxml.jackson.databind.ser.Serializers;
 import lombok.*;
-import org.hibernate.annotations.CreationTimestamp;
-import org.hibernate.annotations.UpdateTimestamp;
-import org.springframework.data.annotation.CreatedDate;
 import softnet.firstBio.lifeLog.Entity.member.Member;
 
 import javax.persistence.*;
-import java.time.LocalDateTime;
 
 @Entity
 @Getter

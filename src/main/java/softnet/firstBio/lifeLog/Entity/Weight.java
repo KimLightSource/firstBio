@@ -1,11 +1,9 @@
 package softnet.firstBio.lifeLog.Entity;
 
 import lombok.*;
-import org.hibernate.annotations.CreationTimestamp;
 import softnet.firstBio.lifeLog.Entity.member.Member;
 
 import javax.persistence.*;
-import java.time.LocalDateTime;
 
 @Entity
 @Getter

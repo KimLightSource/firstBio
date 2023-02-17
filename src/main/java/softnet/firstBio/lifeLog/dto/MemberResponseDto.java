@@ -1,7 +1,6 @@
 package softnet.firstBio.lifeLog.dto;
 
 import lombok.Data;
-import lombok.Getter;
 import softnet.firstBio.lifeLog.Entity.member.Member;
 
 @Data

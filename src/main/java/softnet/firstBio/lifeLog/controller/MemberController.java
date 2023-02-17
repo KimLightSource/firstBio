@@ -2,9 +2,7 @@ package softnet.firstBio.lifeLog.controller;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
-import softnet.firstBio.lifeLog.Entity.BloodPressure;
 import softnet.firstBio.lifeLog.Entity.member.Member;
-import softnet.firstBio.lifeLog.repo.BloodPressureRepository;
 import softnet.firstBio.lifeLog.repo.MemberRepository;
 
 import java.util.List;

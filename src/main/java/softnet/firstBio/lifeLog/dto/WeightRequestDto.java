@@ -7,7 +7,8 @@ import softnet.firstBio.lifeLog.Entity.Location;
 import softnet.firstBio.lifeLog.Entity.Weight;
 import softnet.firstBio.lifeLog.Entity.member.Member;
 
-import javax.persistence.*;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
 
 @Getter
 @NoArgsConstructor

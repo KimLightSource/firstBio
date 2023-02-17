@@ -4,10 +4,8 @@ import lombok.Data;
 import softnet.firstBio.lifeLog.Entity.BloodPressure;
 import softnet.firstBio.lifeLog.Entity.DrugField;
 import softnet.firstBio.lifeLog.Entity.Location;
-import softnet.firstBio.lifeLog.Entity.member.Member;
 
 import java.time.LocalDateTime;
-import java.util.List;
 
 @Data
 public class BloodPressureResponseDto {

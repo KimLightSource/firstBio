@@ -1,7 +1,6 @@
 package softnet.firstBio.lifeLog.dto;
 
 import lombok.Data;
-import softnet.firstBio.lifeLog.Entity.BSStatus;
 import softnet.firstBio.lifeLog.Entity.BloodSugar;
 import softnet.firstBio.lifeLog.Entity.Insulin;
 import softnet.firstBio.lifeLog.Entity.MeasurementLocation;

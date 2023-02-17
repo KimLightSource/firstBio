@@ -1,7 +1,6 @@
 package softnet.firstBio.lifeLog.dto;
 
 import lombok.Builder;
-import lombok.Data;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import softnet.firstBio.lifeLog.Entity.BSStatus;
@@ -10,7 +9,8 @@ import softnet.firstBio.lifeLog.Entity.Insulin;
 import softnet.firstBio.lifeLog.Entity.MeasurementLocation;
 import softnet.firstBio.lifeLog.Entity.member.Member;
 
-import javax.persistence.*;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
 
 @Getter
 @NoArgsConstructor

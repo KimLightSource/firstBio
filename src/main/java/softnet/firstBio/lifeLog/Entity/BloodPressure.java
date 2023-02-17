@@ -1,15 +1,13 @@
 package softnet.firstBio.lifeLog.Entity;
 
 import lombok.*;
-import org.hibernate.annotations.CreationTimestamp;
-import org.springframework.data.annotation.CreatedDate;
 import softnet.firstBio.lifeLog.Entity.member.Member;
 
 import javax.persistence.*;
-import java.time.LocalDateTime;
 
 @Entity
 @Getter
+@Setter
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
@@ -27,7 +25,5 @@ public class BloodPressure extends BaseEntity{
     private Location location;
     @Enumerated(EnumType.STRING)
     private DrugField drugField;
-
-
 
 }

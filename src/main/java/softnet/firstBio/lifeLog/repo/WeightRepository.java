@@ -3,7 +3,6 @@ package softnet.firstBio.lifeLog.repo;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
-import softnet.firstBio.lifeLog.Entity.BloodPressure;
 import softnet.firstBio.lifeLog.Entity.Weight;
 
 @Repository

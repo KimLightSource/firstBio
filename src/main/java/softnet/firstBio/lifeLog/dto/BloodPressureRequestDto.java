@@ -1,5 +1,6 @@
 package softnet.firstBio.lifeLog.dto;
 
+import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -9,10 +10,11 @@ import softnet.firstBio.lifeLog.Entity.Location;
 
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
-import java.time.LocalDateTime;
 
 @Getter
 @NoArgsConstructor
+@AllArgsConstructor
+@Builder
 public class BloodPressureRequestDto {
     private Integer maxBp;
     private Integer minBp;
@@ -22,7 +24,6 @@ public class BloodPressureRequestDto {
     @Enumerated(EnumType.STRING)
     private DrugField drugField;
 
-    @Builder
     public BloodPressureRequestDto(Integer maxBp, Integer minBp, Integer pulse, Location location, DrugField drugField) {
         this.maxBp = maxBp;
         this.minBp = minBp;
