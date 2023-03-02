@@ -24,14 +24,6 @@ public class BloodPressureRequestDto {
     @Enumerated(EnumType.STRING)
     private DrugField drugField;
 
-    public BloodPressureRequestDto(Integer maxBp, Integer minBp, Integer pulse, Location location, DrugField drugField) {
-        this.maxBp = maxBp;
-        this.minBp = minBp;
-        this.pulse = pulse;
-        this.location = location;
-        this.drugField = drugField;
-    }
-
     public BloodPressure toEntity() {
         return BloodPressure.builder()
                 .maxBp(maxBp)
