@@ -1,74 +1,117 @@
 package softnet.firstBio.lifeLog.config;
 
-import com.google.firebase.auth.FirebaseAuth;
-import lombok.AllArgsConstructor;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import lombok.RequiredArgsConstructor;
+import org.springframework.boot.autoconfigure.security.servlet.PathRequest;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.http.HttpHeaders;
+import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
+import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.builders.WebSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
+import org.springframework.security.web.authentication.www.BasicAuthenticationFilter;
 import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.CorsConfigurationSource;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
-import softnet.firstBio.lifeLog.config.auth.AuthFilterContainer;
-import softnet.firstBio.lifeLog.config.auth.filter.JwtFilter;
-import softnet.firstBio.lifeLog.service.MemberServiceImpl;
+import softnet.firstBio.lifeLog.config.auth.filter.JWTCheckfilter;
+import softnet.firstBio.lifeLog.config.auth.filter.JWTLoginFilter;
 
 @Configuration
 @EnableWebSecurity
-@AllArgsConstructor
+@RequiredArgsConstructor
+@EnableGlobalMethodSecurity(prePostEnabled = true)
 public class securityConfig extends WebSecurityConfigurerAdapter {
+    final UserDetailsService userDetailsService;
+    final ObjectMapper objectMapper;
 
-    private final AuthFilterContainer authFilterContainer;
+    private static final String[] AUTH_WHITELIST = {
+            "/**"
+    };
 
-    private final MemberServiceImpl memberService;
-    private final FirebaseAuth firebaseAuth;
+    private static final String[] AUTH_ADMIN = {
+            "/admin/**",
+            "/ai/inner/**",
+            "/biometric/**",
+            "/code/**",
+            "/faq/**",
+            "/inquiry/**",
+            "/location/**",
+            "/notice/**",
+            "/patient/**",
+            "/request/**",
+            "/survey/**",
+            "/term/**",
+    };
+
+    private static final String[] AI_AUTHLIST = {
+            "/ai/outer/**"
+    };
+
+    @Bean
+    BCryptPasswordEncoder passwordEncoder(){
+        return new BCryptPasswordEncoder();
+    }
+
+    @Override
+    protected void configure(AuthenticationManagerBuilder auth) throws Exception {
+        auth.userDetailsService(userDetailsService)
+                .passwordEncoder(passwordEncoder());
+    }
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
-        http
-                .httpBasic().disable() // rest api 만을 고려하여 기본 설정은 해제
-                .csrf().disable() // csrf 보안 토큰 disable 처리.
+        final JWTLoginFilter loginFilter = new JWTLoginFilter(authenticationManager(), objectMapper);
+        final JWTCheckfilter checkFilter = new JWTCheckfilter(authenticationManager(), userDetailsService);
+
+        http.cors()
+                .configurationSource(corsConfigurationSource())
+                .and()
+                .csrf().disable()
+                .authorizeRequests(request -> request
+                        .antMatchers(AUTH_WHITELIST).permitAll()
+                        .anyRequest().authenticated())
                 .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
                 .and()
-                .authorizeRequests() // 요청에 대한 권한 지정
-                .anyRequest().authenticated() // 모든 요청이 인증되어야한다.
+                .addFilterAt(loginFilter, UsernamePasswordAuthenticationFilter.class)
+                .addFilterAt(checkFilter, BasicAuthenticationFilter.class);
+    }
 
-                .and()
-                .cors(httpSecurityCorsConfigurer -> this.corsConfigurationSource())
-                .addFilterBefore(new JwtFilter(memberService, firebaseAuth),
-                UsernamePasswordAuthenticationFilter.class);
+    @Override
+    public void configure(WebSecurity web) {
+        web.ignoring()
+                .requestMatchers(PathRequest.toStaticResources().atCommonLocations());
     }
 
     @Bean
     public CorsConfigurationSource corsConfigurationSource() {
-        CorsConfiguration corsConfiguration = new CorsConfiguration();
-
-        corsConfiguration.addAllowedOrigin("*");
-        corsConfiguration.addAllowedHeader("*");
-        corsConfiguration.addAllowedMethod("*");
+        CorsConfiguration configuration = new CorsConfiguration();
+        configuration.addAllowedOrigin("*");
+        configuration.addAllowedHeader("*");
+        configuration.addAllowedMethod("*");
+        configuration.addExposedHeader(HttpHeaders.AUTHORIZATION);
 
         UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
-        source.registerCorsConfiguration("/**", corsConfiguration);
+        source.registerCorsConfiguration("/**", configuration);
         return source;
     }
 
-    //인증 예외 URL 설정
-    @Override
-    public void configure(WebSecurity web) throws Exception {
-        web.ignoring()
-                .antMatchers("/css/**")
-                .antMatchers("/static/**")
-                .antMatchers("/js/**")
-                .antMatchers("/img/**")
-                .antMatchers("/fonts/**")
-                .antMatchers("/vendor/**")
-                .antMatchers("/favicon.ico")
-                .antMatchers("/pages/**")
-                .antMatchers("/member");
-    }
+//    @Bean
+//    public RoleHierarchyImpl roleHierarchy(){
+//        RoleHierarchyImpl roleHierarchy = new RoleHierarchyImpl();
+//        roleHierarchy.setHierarchy(userDetailsService.getRoleHierarchy());
+//        return roleHierarchy;
+//    }
+
+//    @Bean
+//    public AccessDecisionVoter roleVoter(){
+//        RoleHierarchyVoter roleHierarchyVoter = new RoleHierarchyVoter(roleHierarchy());
+//        return roleHierarchyVoter;
+//    }
 }

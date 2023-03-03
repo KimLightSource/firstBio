@@ -1,5 +1,8 @@
 package softnet.firstBio.jpashop;
 
+import io.jsonwebtoken.Header;
+import io.jsonwebtoken.Jwts;
+import io.jsonwebtoken.SignatureAlgorithm;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
@@ -8,26 +11,24 @@ import org.springframework.transaction.annotation.Transactional;
 import softnet.firstBio.lifeLog.Entity.BloodPressure;
 import softnet.firstBio.lifeLog.repo.BloodPressureRepository;
 
+import java.time.Duration;
+import java.util.Date;
+
 @DataJpaTest
 class MemberRepositoryTest {
-    @Autowired
-    BloodPressureRepository bpr;
 
     @Test
-    @Transactional
-    @Rollback(value = false)
-    public void testMember() throws Exception {
-        //given
+    public void makeJwtToken() {
+        Date now = new Date();
 
-
-        //when
-
-        BloodPressure bo = bpr.latestBP();
-
-        //then
-//        Assertions.assertThat(findMember.getId()).isEqualTo(member.getId());
-//        Assertions.assertThat(findMember.getUsername()).isEqualTo(member.getUsername());
-//        Assertions.assertThat(findMember).isEqualTo(member);
-        System.out.println("bo = " + bo);
+        System.out.println(Jwts.builder()
+                .setHeaderParam(Header.TYPE, Header.JWT_TYPE) // (1)
+                .setIssuer("fresh") // (2)
+                .setIssuedAt(now) // (3)
+                .setExpiration(new Date(now.getTime() + Duration.ofMinutes(30).toMillis())) // (4)
+                .claim("id", "아이디") // (5)
+                .claim("email", "qkek875@gmail.com")
+                .signWith(SignatureAlgorithm.HS256, "secret") // (6)
+                .compact());
     }
 }

@@ -1,10 +1,15 @@
 package softnet.firstBio.lifeLog.controller;
 
 import lombok.RequiredArgsConstructor;
+import org.apache.catalina.connector.Response;
 import org.springframework.web.bind.annotation.*;
 import softnet.firstBio.lifeLog.Entity.member.Member;
+import softnet.firstBio.lifeLog.dto.MemberRegisterDto;
+import softnet.firstBio.lifeLog.dto.MemberRegisterResponseDto;
 import softnet.firstBio.lifeLog.repo.MemberRepository;
+import softnet.firstBio.lifeLog.service.MemberServiceImpl;
 
+import javax.persistence.EntityManager;
 import javax.servlet.http.HttpServletRequest;
 import java.util.List;
 
@@ -14,29 +19,30 @@ import java.util.List;
 @RequestMapping("/member")
 public class MemberController {
 
-    private final MemberRepository memberRepository;
+    private final MemberServiceImpl memberservice;
+    private final EntityManager em;
 
 
-    @GetMapping()
-    public List<Member> findAllMember() {
-        return memberRepository.findAll();
+//    @GetMapping()
+//    public List<Member> findAllMember() {
+//        return memberservice.findAll();
+//    }
+
+    @PostMapping("/signUp")
+    public MemberRegisterResponseDto signUp(@RequestBody MemberRegisterDto memberRegisterDto) {
+        System.out.println("memberRegisterDto = " + memberRegisterDto);
+        return memberservice.join(memberRegisterDto);
     }
 
-    @PostMapping()
-    public Member signUp() {
-        final Member member = Member.builder()
-                .username("testMember")
-                .password("1234")
-                .build();
-        return memberRepository.save(member);
-    }
-
-    @PostMapping("login")
-    Void login(
+    @PostMapping(value = "/login")
+    @ResponseBody
+    int login(
             HttpServletRequest request
     ) {
-        return null;
+
+        return Response.SC_OK;
     }
+
 
 
 

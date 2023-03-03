@@ -57,4 +57,11 @@ public class MemberServiceImpl implements UserDetailsService {
         return member;
     }
 
+    //회원 가입
+    @Transactional
+    public MemberRegisterResponseDto join(MemberRegisterDto memberRegisterDto) {
+        return register(memberRegisterDto);
+    }
+
+
 }
